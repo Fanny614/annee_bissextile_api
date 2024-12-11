@@ -25,10 +25,6 @@ poetry install
 Pour créer la base de données, il faut creer un fichier avec pour nom `db.sqlite3` 
 puis faire les migrations nécessaires à l'aide de :
 ```bash
-python manage.py makemigations
-```
-puis de :
-```bash
 python manage.py migrate
 ```
 

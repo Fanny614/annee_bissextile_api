@@ -7,32 +7,22 @@ et enregistre le tout dans une base de données.
 Pour fonctionner, l'API a besoin de [python 3.12.7](https://www.python.org/downloads/).
 
 ### Installation du projet 
-Pour plus d'information sur [poetry](https://python-poetry.org/).
-```bash
-curl -sSL https://install.python-poetry.org | python3 -
-```
+Pour installer [Docker](https://docs.docker.com/)
 
-Pour activer l'environnement virtuel avec poetry :
+Ensuite lancer ces trois instructions dans le terminal :
 ```bash
-poetry shell
+docker build -t annee_bissextile_api .
 ```
 
 ```bash
-poetry install
+docker run -d -p 8005:8005 --name annee_bissextile_api annee_bissextile_api
 ```
 
-## Base de données
-Pour créer la base de données, il faut creer un fichier avec pour nom `db.sqlite3` 
-puis faire les migrations nécessaires à l'aide de :
 ```bash
-python manage.py migrate
+docker exec annee_bissextile_api poetry run python manage.py migrate
 ```
 
 ## Usage
-Pour lancer le serveur :
-```bash
-python manage.py runserver
-```
 
 ### Premier endpoint
 Cet endpoint permet de retnrer une année en entrée et retourne si celle si est bissextile ou non.

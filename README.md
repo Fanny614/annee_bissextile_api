@@ -17,7 +17,7 @@ docker build -t annee_bissextile_api .
 ```bash
 docker run -d -p 8005:8005 --name annee_bissextile_api annee_bissextile_api
 ```
-
+Cette commande permet de créer la base de données
 ```bash
 docker exec annee_bissextile_api poetry run python manage.py migrate
 ```

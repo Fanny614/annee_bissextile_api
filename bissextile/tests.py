@@ -4,7 +4,7 @@ from rest_framework import status
 
 from anneebissextile.settings import BASEURL
 from bissextile.models import Bissextile
-from bissextile.serializers import BissextileSingleSerializer, BissextileRangeSerializer, BissextileHistorySerializer
+from bissextile.serializers import BissextileHistorySerializer
 from bissextile.utils import est_bissextile
 
 

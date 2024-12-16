@@ -48,7 +48,7 @@ def rangea(request):
     Retourne à l'utilisateur toutes les années bissextile.
     """
     serializer = BissextileRangeSerializer(data=request.data)
-    if serializer.is_valid() and serializer.validated_data['annee_debut'] < serializer.validated_data['annee_fin']:
+    if serializer.is_valid():
         annee_debut = serializer.validated_data['annee_debut']
         annee_fin = serializer.validated_data['annee_fin']
         # liste pour stocker les années bissextiles et pouvoir les retourner à l'utilisateur

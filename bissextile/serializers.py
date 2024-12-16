@@ -10,8 +10,6 @@ class BissextileSingleSerializer(serializers.Serializer):
         return Bissextile.objects.create(**validated_data)
 
 
-
-
 class BissextileRangeSerializer(serializers.Serializer):
     annee_debut = serializers.IntegerField(required=True, allow_null=True)
     annee_fin = serializers.IntegerField(required=True, allow_null=True)
@@ -23,6 +21,7 @@ class BissextileRangeSerializer(serializers.Serializer):
         if attrs['annee_debut'] > attrs['annee_fin']:
             raise serializers.ValidationError()
         return attrs
+
 
 class BissextileHistorySerializer(serializers.Serializer):
     endpoint_utilise = serializers.CharField(max_length=100, required=False)

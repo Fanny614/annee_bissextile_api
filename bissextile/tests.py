@@ -4,7 +4,7 @@ from rest_framework import status
 
 from anneebissextile.settings import BASEURL
 from bissextile.models import Bissextile
-from bissextile.serializers import BissextileSerializer
+from bissextile.serializers import BissextileSingleSerializer, BissextileRangeSerializer, BissextileHistorySerializer
 from bissextile.utils import est_bissextile
 
 
@@ -50,7 +50,7 @@ class TestView(TestCase):
         """
         Test que l'historique fonctionne (le troisième endpoint)
         """
-        serializer = BissextileSerializer(Bissextile.objects.all(), many=True)
+        serializer = BissextileHistorySerializer(Bissextile.objects.all(), many=True)
         response = self.client.get(path=BASEURL + self.url_history)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(serializer.data, response.json())
@@ -63,7 +63,7 @@ class TestView(TestCase):
         data = {"annee_debut": 1995, "annee_fin": 2000}
         response = self.client.post(path=BASEURL + self.url_range, data=data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.json(), "Les années 1996 sont bissextiles.")
+        self.assertEqual(response.json(), "Les années 1996, 2000 sont bissextiles.")
 
     def test_range_requete_invalide(self):
         """

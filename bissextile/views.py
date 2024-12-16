@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_200_OK
 
 from bissextile.models import Bissextile
-from bissextile.serializers import BissextileSerializer
+from bissextile.serializers import BissextileSingleSerializer, BissextileRangeSerializer, BissextileHistorySerializer
 from bissextile.utils import est_bissextile
 
 
@@ -15,7 +15,7 @@ def single(request):
     Sauvegarde l'information dans la base de donnée.
     Retourne à l'utilisateur si elle est bissextile ou non.
     """
-    serializer = BissextileSerializer(data=request.data)
+    serializer = BissextileSingleSerializer(data=request.data)
     if serializer.is_valid():
         # On teste si l'année en entrée est bissextile ou non
         is_bis = est_bissextile(serializer.validated_data['annee'])
@@ -33,9 +33,9 @@ def single(request):
 def list(request):
     """
     Permet de donner l'historique des requêtes effectués ainsi que la sortie de celles-ci
-    Rangé par date croissante
+    Rangé par date de création croissante
     """
-    serializer = BissextileSerializer(Bissextile.objects.all(), many=True)
+    serializer = BissextileHistorySerializer(Bissextile.objects.all(), many=True)
     return Response(serializer.data)
 
 
@@ -47,9 +47,8 @@ def rangea(request):
     Sauvegarde l'information dans la basse de donnée.
     Retourne à l'utilisateur toutes les années bissextile.
     """
-    serializer = BissextileSerializer(data=request.data)
-    if request.data != {} and serializer.is_valid() and serializer.validated_data['annee_debut'] < \
-            serializer.validated_data['annee_fin']:
+    serializer = BissextileRangeSerializer(data=request.data)
+    if serializer.is_valid() and serializer.validated_data['annee_debut'] < serializer.validated_data['annee_fin']:
         annee_debut = serializer.validated_data['annee_debut']
         annee_fin = serializer.validated_data['annee_fin']
         # liste pour stocker les années bissextiles et pouvoir les retourner à l'utilisateur
@@ -66,5 +65,4 @@ def rangea(request):
                                   annee_fin=serializer.data['annee_fin'], annees_bissextiles=liste_annees,
                                   endpoint_utilise="Range")
         return Response(f"Les années {liste_annees} sont bissextiles.", HTTP_200_OK)
-    return Response(
-        f"La requête n'est pas valide.", HTTP_400_BAD_REQUEST)
+    return Response(f"La requête n'est pas valide.", HTTP_400_BAD_REQUEST)

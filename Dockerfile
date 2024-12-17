@@ -13,8 +13,8 @@ RUN poetry install --no-root
 # Copie l'intégralité du code du projet
 COPY . /app/
 # Spécifie quel port il faut utiliser
-EXPOSE 8005
+EXPOSE 8000
 # Défini les variable d'environnement
 ENV PYTHONUNBUFFERED=1
 # Commande qui exécute le programme
-CMD ["poetry", "run", "python", "manage.py", "runserver", "0.0.0.0:8005"]
+CMD ["poetry", "run", "gunicorn", "-w", "3", "--bind", "0.0.0.0:8000", "anneebissextile.wsgi"]
